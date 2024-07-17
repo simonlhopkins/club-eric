@@ -47,7 +47,13 @@ const SamAdamsOctoberFest = () => {
     <>
       <StyledSamAdamsOctoberFest>
         <h1 ref={textRef}></h1>
-        <video controls ref={videoRef} src="/samAdams.mp4"></video>
+        <video
+          controls
+          webkit-playsinline="true"
+          playsInline
+          ref={videoRef}
+          src="/samAdams.mp4#t=0.1"
+        ></video>
         <>
           {wordList.map((item, i) => (
             <p key={i}>{item}</p>
