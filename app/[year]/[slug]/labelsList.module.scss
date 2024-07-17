@@ -1,0 +1,15 @@
+.link {
+  border: 2px solid var(--secondary-color);
+  padding: 5px 10px;
+  border-radius: 100px;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  gap: 10px;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

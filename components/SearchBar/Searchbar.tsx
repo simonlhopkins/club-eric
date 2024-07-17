@@ -36,7 +36,11 @@ const Search = () => {
   return (
     <form onSubmit={handleSearchSubmit} className={style.searchbar}>
       <input
-        type="text"
+        style={{
+          fontSize: "24px",
+        }}
+        type="search"
+        autoComplete="on"
         value={search}
         onChange={handleSearchChange}
         placeholder={"Search..."}

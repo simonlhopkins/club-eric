@@ -1,12 +1,12 @@
 import Link from "next/link";
-import style from "./labelsList.module.css";
+import style from "./labelsList.module.scss";
 
 interface Props {
   labels: string[];
 }
 const LabelsList = ({ labels }: Props) => {
   return (
-    <div>
+    <div className={style.wrapper}>
       {labels.map((label) => (
         <Link
           key={label}
