@@ -29,8 +29,6 @@ function rehypeChangeImgSrc() {
             node.tagName = "video";
             node.properties.src = cmsUrl + "#t=0.1";
             node.properties.type = "video/mp4";
-            node.properties.controls = true;
-            node.properties.preload = "metadata";
             node.properties.alt = src;
             delete node.properties.alt;
           } else {

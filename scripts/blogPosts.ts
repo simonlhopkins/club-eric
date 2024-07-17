@@ -1,5 +1,6 @@
 import axios from "axios";
 import matter from "gray-matter";
+import { cache } from "react";
 
 const blogPostsPath = "./cms/blogPosts";
 
@@ -50,11 +51,12 @@ async function fetchFromGithub() {
   return fileContents;
 }
 
-export async function GetBlogPosts() {
+export const GetBlogPosts = cache(async () => {
   const response = await fetchFromGithub()
     // .then((res) => res.json())
     .catch((err) => {
       console.log("error");
+      console.log(err);
       return null;
     });
   if (response == null) {
@@ -64,7 +66,7 @@ export async function GetBlogPosts() {
     ...rawData,
     date: new Date(rawData.date),
   })) as BlogPostData[];
-}
+});
 
 export function getYearSlugLinkFromBlogPost(bp: BlogPostData) {
   return `/${bp.date.getFullYear()}/${bp.slug}`;
