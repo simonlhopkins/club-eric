@@ -1,0 +1,4 @@
+.blogPost {
+  border-top: 2px solid var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color);
+}

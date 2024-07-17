@@ -1,0 +1,23 @@
+.closed {
+  display: none;
+}
+
+.open {
+}
+
+.list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 1em;
+  border-left: 1px solid black;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.childCount {
+  color: var(--primary-color);
+}

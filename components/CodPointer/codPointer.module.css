@@ -1,0 +1,13 @@
+.image {
+  position: absolute;
+  width: 200px;
+  pointer-events: none;
+  z-index: 2;
+  display: none;
+}
+
+@media (pointer: fine) {
+  .image {
+    display: block;
+  }
+}

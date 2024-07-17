@@ -1,0 +1,17 @@
+.wrapper {
+  border: 1px solid black;
+  flex-direction: column;
+}
+
+.circle {
+  border-radius: 999px;
+  background-color: blue;
+  width: 200px;
+  aspect-ratio: 1;
+}
+
+.canvas {
+  width: 100%;
+  aspect-ratio: 1;
+  display: block;
+}
