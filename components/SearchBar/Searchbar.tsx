@@ -19,7 +19,7 @@ const Search = () => {
   }, [searchParam]);
   useEffect(() => {
     setTagsOnly(tagOnlyParam == "true");
-  }, [tagOnlyParam]);
+  }, [tagOnlyParam, searchParam]);
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (search.trim()) {
@@ -36,9 +36,7 @@ const Search = () => {
   return (
     <form onSubmit={handleSearchSubmit} className={style.searchbar}>
       <input
-        style={{
-          fontSize: "24px",
-        }}
+        className={style.input}
         type="search"
         autoComplete="on"
         value={search}

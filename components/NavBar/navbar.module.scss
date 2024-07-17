@@ -58,6 +58,8 @@
 @media screen and (max-width: 600px) {
   .search {
     display: block;
+    overflow: hidden;
+
     // max-width: 50%;
   }
   .navbar {
