@@ -13,7 +13,7 @@ export interface BlogPostData {
 }
 
 async function fetchFromGithub() {
-  const response = await axios.get(
+  const response = await fetch(
     `https://api.github.com/repos/simonlhopkins/club-eric-cms/contents/blogPosts`,
     {
       headers: {
@@ -21,24 +21,29 @@ async function fetchFromGithub() {
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         "X-GitHub-Api-Version": "2022-11-28",
       },
+      next: { revalidate: 3600 },
     }
   );
-
-  const ret = response.data
+  if (!response.ok) {
+    throw new Error(`GitHub API responded with ${response.status}`);
+  }
+  const data = await response.json();
+  const ret = data
     .filter((item: any) => item.type == "file" && item.name.endsWith(".mdx"))
     .map((fileData: any) => {
-      return axios
-        .get(
-          `https://api.github.com/repos/simonlhopkins/club-eric-cms/contents/${fileData.path}`,
-          {
-            headers: {
-              Accept: "application/vnd.github.raw+json",
-              Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-              "X-GitHub-Api-Version": "2022-11-28",
-            },
-          }
-        )
-        .then((response) => matter(response.data))
+      return fetch(
+        `https://api.github.com/repos/simonlhopkins/club-eric-cms/contents/${fileData.path}`,
+        {
+          headers: {
+            Accept: "application/vnd.github.raw+json",
+            Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+          next: { revalidate: 3600 },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => matter(data))
         .then((markdown) => ({
           slug: fileData.name.replace(/\.(md|mdx)$/, ""), //todo replace spaces and such in the slug
           title: markdown.data.title,
