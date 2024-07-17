@@ -20,16 +20,18 @@ const k_script: [string, number][] = [
 const SamAdamsOctoberFest = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [wordList, setWordList] = useState<string[]>([]);
   useEffect(() => {
     const onVideoUpdate = () => {
-      const newWordList = [];
       const currentTime = videoRef.current!.currentTime;
       const validWords = k_script
         .filter((line) => currentTime > line[1])
         .map((item) => item[0]);
       let text = validWords.length > 0 ? validWords[validWords.length - 1] : "";
-      setWordList(validWords);
+      if (validWords.length != wordList.length) {
+        setWordList(validWords);
+      }
 
       textRef.current!.textContent = text;
     };
@@ -41,11 +43,18 @@ const SamAdamsOctoberFest = () => {
         videoRef.current.removeEventListener("timeupdate", onVideoUpdate);
       }
     };
-  }, [videoRef.current]);
-
+  }, [videoRef.current, wordList]);
+  useEffect(() => {
+    if (wordList.length > 0) {
+      containerRef.current!.scrollIntoView({
+        block: "end",
+        behavior: "smooth",
+      });
+    }
+  }, [wordList]);
   return (
     <>
-      <StyledSamAdamsOctoberFest>
+      <StyledSamAdamsOctoberFest ref={containerRef}>
         <h1 ref={textRef}></h1>
         <video
           controls
