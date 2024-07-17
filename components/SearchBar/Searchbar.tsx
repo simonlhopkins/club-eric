@@ -2,6 +2,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import style from "./searchbar.module.scss";
 
 const Search = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const Search = () => {
   };
 
   return (
-    <form onSubmit={handleSearchSubmit}>
+    <form onSubmit={handleSearchSubmit} className={style.searchbar}>
       <input
         type="text"
         value={search}

@@ -12,9 +12,11 @@
 .navbar {
   min-width: 100%;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   .navList {
     transition: all 1s;
-
     padding: 0;
     overflow: hidden;
     margin: 0;
@@ -46,7 +48,16 @@
   display: none;
 }
 
+.search {
+  display: none;
+}
+
 @media screen and (max-width: 600px) {
+  .search {
+    display: block;
+    max-width: 50%;
+    margin-left: 10px;
+  }
   .navbar {
     position: sticky;
     top: 0px;
@@ -77,7 +88,6 @@
   }
   .icon {
     display: block;
-    float: right;
   }
   .navArchive {
     display: block;

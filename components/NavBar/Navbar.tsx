@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import styles from "./navbar.module.scss";
-import BlogArchive from "../BlogArchive/BlogArchive";
+import SearchBar from "../SearchBar/Searchbar";
 
 interface RouteEntry {
   link: string;
@@ -19,6 +19,7 @@ const NavBar = ({ archive }: Props) => {
   const routes: RouteEntry[] = [
     { link: "/", title: "home" },
     { link: "/blogPosts", title: "blog posts" },
+    { link: "/blogArchive", title: "archive" },
   ];
   useEffect(() => {
     setIsOpen(false); // When the dynamic route change reset the state
@@ -29,6 +30,10 @@ const NavBar = ({ archive }: Props) => {
   }, [isOpen]);
   return (
     <nav className={["navbar", styles.navbar].join(" ")}>
+      <div className={styles.search}>
+        <SearchBar />
+      </div>
+
       <div
         onClick={() => {
           setIsOpen(true);
@@ -48,13 +53,20 @@ const NavBar = ({ archive }: Props) => {
         <ul className={styles.navList}>
           {routes.map(({ link, title }) => (
             <li key={link} className={styles.navItem}>
-              <Link href={link} className={pathname == link ? "active" : ""}>
+              <Link
+                href={link}
+                onClick={() => {
+                  if (pathname == link) {
+                    setIsOpen(false);
+                  }
+                }}
+                className={pathname == link ? "active" : ""}
+              >
                 {title}
               </Link>
             </li>
           ))}
         </ul>
-        <div className={styles.navArchive}>{archive}</div>
       </div>
     </nav>
   );
