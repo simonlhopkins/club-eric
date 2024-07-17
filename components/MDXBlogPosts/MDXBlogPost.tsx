@@ -45,6 +45,9 @@ const components = {
   ForestsVisualizerComponent,
   SamAdamsOctoberFest,
   CodPointer,
+  video: (props: React.VideoHTMLAttributes<HTMLVideoElement>) => (
+    <video controls webkit-playsinline="true" playsInline {...props} />
+  ),
 };
 const mdxOptions = {
   remarkPlugins: [],

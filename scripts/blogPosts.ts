@@ -42,7 +42,7 @@ async function fetchFromGithub() {
           next: { revalidate: 3600 },
         }
       )
-        .then((response) => response.json())
+        .then(async (response) => await response.text())
         .then((data) => matter(data))
         .then((markdown) => ({
           slug: fileData.name.replace(/\.(md|mdx)$/, ""), //todo replace spaces and such in the slug
