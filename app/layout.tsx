@@ -7,8 +7,6 @@ import BlogArchive from "@/components/BlogArchive/BlogArchive";
 import Header from "@/components/Header";
 import SearchBar from "@/components/SearchBar/Searchbar";
 import "@/styles/global.scss";
-import { AOSInit } from "@/components/aos";
-import AnimateOnScroll from "@/components/AnimateOnScroll";
 import Providers from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,33 +25,31 @@ export default async function RootLayout({
     <Providers>
       <html lang="en">
         <body>
-          <AnimateOnScroll>
-            <div className="mainWrapper">
-              <Header />
-              <NavBar archive={<BlogArchive />} />
-              <div className="bottomWrapper">
-                <div className="columnLeft">
-                  <img
-                    style={{ width: "150px" }}
-                    src="/kevinsKillerGifs/fem_fighter.gif"
-                  />
-                  <img
-                    style={{ width: "150px" }}
-                    src="/kevinsKillerGifs/rat_soldier.gif"
-                  />
-                </div>
-                <div className="columnCenter">
-                  <main>{children}</main>
-                </div>
-                <div className="columnRight">
-                  <img src="/ericLogos/iconeric.gif"></img>
-                  <SearchBar />
-                  <BlogArchive />
-                  <img src="/ericLogos/eric.gif"></img>
-                </div>
+          <div className="mainWrapper">
+            <Header />
+            <NavBar archive={<BlogArchive />} />
+            <div className="bottomWrapper">
+              <div className="columnLeft">
+                <img
+                  style={{ width: "150px" }}
+                  src="/kevinsKillerGifs/fem_fighter.gif"
+                />
+                <img
+                  style={{ width: "150px" }}
+                  src="/kevinsKillerGifs/rat_soldier.gif"
+                />
+              </div>
+              <div className="columnCenter">
+                <main>{children}</main>
+              </div>
+              <div className="columnRight">
+                <img src="/ericLogos/iconeric.gif"></img>
+                <SearchBar />
+                <BlogArchive />
+                <img src="/ericLogos/eric.gif"></img>
               </div>
             </div>
-          </AnimateOnScroll>
+          </div>
         </body>
       </html>
     </Providers>

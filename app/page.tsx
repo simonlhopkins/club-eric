@@ -1,6 +1,5 @@
 import { GetBlogPosts } from "@/lib/blogPosts";
 import LatestBlogPost from "./LatestBlogPost";
-import IsbpwcfTest from "@/components/iwbpwcf/iwbpwcfTest";
 
 export default async function Home() {
   const blogPosts = (await GetBlogPosts()).sort(
@@ -11,7 +10,6 @@ export default async function Home() {
     <>
       {blogPosts.length > 0 && <LatestBlogPost blogPost={blogPosts[0]} />}
       <h1>Club Eric</h1>
-      <IsbpwcfTest />
       <img src="/ericLogos/EricGlitter.gif" />
       <img alt="philbin corp image" src="/philbinLogo.png"></img>
     </>
