@@ -2,7 +2,11 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeStarryNight from "rehype-starry-night";
 import ForestsVisualizerComponent from "../ForestsVisualizer/ForestsVisualizerComponent";
 
-import { BlogPostData, getYearSlugLinkFromBlogPost } from "@/lib/blogPosts";
+import {
+  BlogPostData,
+  getYearSlugLinkFromBlogPost,
+  S3_BUCKET_URL,
+} from "@/lib/blogPosts";
 import Link from "next/link";
 import { visit } from "unist-util-visit";
 import SamAdamsOctoberFest from "../SamAdamsOctoberFest";
@@ -13,8 +17,7 @@ interface Props {
   blogPost: BlogPostData;
 }
 
-const cmsMediaUrl =
-  "https://github.com/simonlhopkins/club-eric-cms/raw/main/blogPosts/media/";
+const cmsMediaUrl = S3_BUCKET_URL + "media/";
 const videoExtensions = [".mp4", ".webm", ".ogg", ".mov"];
 
 function rehypeChangeImgSrc() {

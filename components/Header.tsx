@@ -7,7 +7,7 @@ const Header = () => {
       <Link href="/">
         <img
           style={{ width: "100%" }}
-          src="/placeholder/sophiesFloorBoardHeader.png"
+          src="/clubEricBrandAssets/clubEricHeader.jpg"
         ></img>
       </Link>
     </header>
