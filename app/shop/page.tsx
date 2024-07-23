@@ -6,10 +6,10 @@ import React, { Suspense } from "react";
 import ShopifyButton from "./ShopifyButton";
 
 const Page = async () => {
-  const collections = await getCollections();
-  const products = await getCollectionProducts({
-    collection: "frontpage",
-  });
+  // const collections = await getCollections();
+  // const products = await getCollectionProducts({
+  //   collection: "frontpage",
+  // });
   return <></>;
 };
 
