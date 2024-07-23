@@ -84,7 +84,6 @@ const CodPointer = () => {
   useEffect(() => {
     getPlayer().setImage(imgRef.current!);
     const onMove = (event: MouseEvent) => {
-      console.log(window.scrollY);
       getPlayer().setPos({
         x: event.pageX,
         y: event.pageY,
@@ -92,7 +91,6 @@ const CodPointer = () => {
     };
     const onClick = () => {
       getPlayer().play();
-      console.log("click");
     };
     addEventListener("mousemove", onMove);
     addEventListener("click", onClick);

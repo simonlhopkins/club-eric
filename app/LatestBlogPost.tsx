@@ -1,4 +1,4 @@
-import { BlogPostData, getYearSlugLinkFromBlogPost } from "@/scripts/blogPosts";
+import { BlogPostData, getYearSlugLinkFromBlogPost } from "@/lib/blogPosts";
 import Link from "next/link";
 
 interface Props {

@@ -3,7 +3,7 @@ import {
   BlogPostData,
   GetBlogPosts,
   getYearSlugLinkFromBlogPost,
-} from "@/scripts/blogPosts";
+} from "@/lib/blogPosts";
 import styles from "./BlogArchive.module.css";
 import ListDropDown from "./ListDropDown";
 export interface ListNode {
@@ -12,13 +12,15 @@ export interface ListNode {
   link?: string;
 }
 
-import Util from "@/scripts/Util";
+import Util from "@/lib/Util";
 
 //I should make it so it only fetches the articles when it reaches it's lowest level maybe, maybe not
 //or it fetches all of the articles when you open up a dropdown for the year
 
 const BlogArchive = async () => {
-  const blogPosts = await GetBlogPosts();
+  const blogPosts = (await GetBlogPosts()).sort((a, b) => {
+    return b.date.getTime() - a.date.getTime();
+  });
 
   const rootNode: ListNode = { title: "root", children: [] };
   const placeNode = (

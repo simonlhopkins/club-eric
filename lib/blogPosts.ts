@@ -45,7 +45,9 @@ async function fetchFromGithub() {
         .then(async (response) => await response.text())
         .then((data) => matter(data))
         .then((markdown) => ({
-          slug: fileData.name.replace(/\.(md|mdx)$/, ""), //todo replace spaces and such in the slug
+          slug: encodeURI(
+            fileData.name.replace(/\.(md|mdx)$/, "").replace(/\s+/g, "")
+          ), //todo replace spaces and such in the slug
           title: markdown.data.title,
           date: markdown.data.date,
           labels: markdown.data.tags,

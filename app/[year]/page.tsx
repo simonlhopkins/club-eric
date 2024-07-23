@@ -1,4 +1,4 @@
-import { GetBlogPosts, getYearSlugLinkFromBlogPost } from "@/scripts/blogPosts";
+import { GetBlogPosts, getYearSlugLinkFromBlogPost } from "@/lib/blogPosts";
 import Link from "next/link";
 
 // export const dynamicParams = false;

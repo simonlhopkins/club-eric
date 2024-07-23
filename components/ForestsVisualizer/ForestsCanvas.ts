@@ -1,4 +1,4 @@
-import { GeometryHelpers, Rect } from "@/scripts/Geometry/Geometry";
+import { GeometryHelpers, Rect } from "@/lib/Geometry/Geometry";
 import { easing } from "ts-easing";
 import { Util } from "../Util";
 import EnergyAnalyzer from "./EnergyAnalyzer";

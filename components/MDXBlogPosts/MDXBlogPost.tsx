@@ -2,7 +2,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeStarryNight from "rehype-starry-night";
 import ForestsVisualizerComponent from "../ForestsVisualizer/ForestsVisualizerComponent";
 
-import { BlogPostData, getYearSlugLinkFromBlogPost } from "@/scripts/blogPosts";
+import { BlogPostData, getYearSlugLinkFromBlogPost } from "@/lib/blogPosts";
 import Link from "next/link";
 import { visit } from "unist-util-visit";
 import SamAdamsOctoberFest from "../SamAdamsOctoberFest";
@@ -60,6 +60,7 @@ const MDXBlogPost = async ({ blogPost }: Props) => {
       <Link href={getYearSlugLinkFromBlogPost(blogPost)}>
         <h1>{blogPost.title}</h1>
       </Link>
+      <p>{blogPost.date.toLocaleDateString()}</p>
       <LabelsList labels={blogPost.labels} />
       <MDXRemote
         source={blogPost.content}

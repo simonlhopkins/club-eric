@@ -24,19 +24,19 @@ const SamAdamsOctoberFest = () => {
   const [wordList, setWordList] = useState<string[]>([]);
   useEffect(() => {
     const onVideoUpdate = () => {
-      const currentTime = videoRef.current!.currentTime;
-      const validWords = k_script
-        .filter((line) => currentTime > line[1])
-        .map((item) => item[0]);
-      let text = validWords.length > 0 ? validWords[validWords.length - 1] : "";
-      if (validWords.length != wordList.length) {
-        setWordList(validWords);
-      }
-
-      textRef.current!.textContent = text;
+      // const currentTime = videoRef.current!.currentTime;
+      // const validWords = k_script
+      //   .filter((line) => currentTime > line[1])
+      //   .map((item) => item[0]);
+      // let text = validWords.length > 0 ? validWords[validWords.length - 1] : "";
+      // if (validWords.length != wordList.length) {
+      //   setWordList(validWords);
+      // }
+      // textRef.current!.textContent = text;
     };
-
-    videoRef.current!.addEventListener("timeupdate", onVideoUpdate);
+    if (videoRef.current) {
+      videoRef.current.addEventListener("timeupdate", onVideoUpdate);
+    }
 
     return () => {
       if (videoRef.current) {

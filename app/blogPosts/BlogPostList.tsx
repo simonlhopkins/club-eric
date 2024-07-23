@@ -1,12 +1,17 @@
 "use client";
-import { BlogPostData } from "@/scripts/blogPosts";
+import { BlogPostData } from "@/lib/blogPosts";
 import * as JsSearch from "js-search";
 import { useSearchParams } from "next/navigation";
 import { ReactNode } from "react";
 import styles from "./blogPosts.module.css";
+import { useInView } from "react-intersection-observer";
 
 interface Props {
   children: { data: BlogPostData; node: ReactNode }[];
+}
+
+interface BlogPostWrapperProps {
+  children: ReactNode;
 }
 
 const BlogPostList = ({ children }: Props) => {

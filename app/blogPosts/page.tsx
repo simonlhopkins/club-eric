@@ -1,5 +1,5 @@
 import MDXBlogPost from "@/components/MDXBlogPosts/MDXBlogPost";
-import { GetBlogPosts } from "@/scripts/blogPosts";
+import { GetBlogPosts } from "@/lib/blogPosts";
 import { Suspense } from "react";
 import BlogPostList from "./BlogPostList";
 

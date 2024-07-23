@@ -104,9 +104,16 @@ a {
 header {
   min-width: 100%;
   height: auto;
+  position: relative;
   img {
     display: block;
     margin: auto;
+    max-width: 100%;
+  }
+  h1 {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
   }
 }
 

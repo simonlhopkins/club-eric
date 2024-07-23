@@ -1,5 +1,5 @@
 import MDXBlogPost from "@/components/MDXBlogPosts/MDXBlogPost";
-import { GetBlogPosts } from "@/scripts/blogPosts";
+import { GetBlogPosts } from "@/lib/blogPosts";
 import { notFound } from "next/navigation";
 import LabelsList from "./LabelsList";
 import CodPointer from "@/components/CodPointer/CodPointer";
