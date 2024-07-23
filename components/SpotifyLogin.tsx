@@ -1,5 +1,4 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
 
 const scope = "user-read-private user-read-email";
 const authUrl = new URL("https://accounts.spotify.com/authorize");

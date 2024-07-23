@@ -10,20 +10,7 @@ const Page = async () => {
   const products = await getCollectionProducts({
     collection: "frontpage",
   });
-  return (
-    <>
-      <p>{JSON.stringify(collections.map((collection) => collection.title))}</p>
-      <p>{JSON.stringify(products.map((product) => product.title))}</p>
-      {/* <ShopifyButton /> */}
-
-      {products.map((product) => (
-        <ProductDescription product={product} />
-      ))}
-      <Suspense fallback={<OpenCart />}>
-        <Cart />
-      </Suspense>
-    </>
-  );
+  return <></>;
 };
 
 export default Page;
