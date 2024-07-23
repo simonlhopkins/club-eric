@@ -19,7 +19,13 @@ const BUCKET_NAME = "club-eric-cms";
 export const S3_BUCKET_URL =
   "https://club-eric-cms.s3.us-west-2.amazonaws.com/blogPosts/";
 
-const s3Client = new S3Client({ region: REGION });
+const s3Client = new S3Client({
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+  },
+  region: REGION,
+});
 
 async function listMdxFiles(bucketName: string): Promise<string[]> {
   const command = new ListObjectsV2Command({ Bucket: bucketName });
