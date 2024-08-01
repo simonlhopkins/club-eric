@@ -9,10 +9,6 @@ export class Util {
     const inRange = inMax - inMin;
     const outRange = outMax - outMin;
 
-    if (inRange === 0) {
-      throw new Error("inMin and inMax cannot be the same value");
-    }
-
     return ((value - inMin) * outRange) / inRange + outMin;
   }
 
@@ -89,6 +85,10 @@ export class Util {
   }
   static clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), max);
+  }
+  static isNumberInRange(number: number, range: [number, number]): boolean {
+    const [lowerBound, upperBound] = range;
+    return number >= lowerBound && number <= upperBound;
   }
 
   static findMin(array: number[]): number | undefined {

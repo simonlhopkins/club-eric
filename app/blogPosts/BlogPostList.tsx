@@ -20,7 +20,6 @@ const BlogPostList = ({ children }: Props) => {
   const tagOnlyParam = searchParams.get("tagsOnly");
 
   let search = new JsSearch.Search(["data", "title"]);
-  console.log("tag param is " + tagOnlyParam);
   search.addIndex(["data", "labels"]);
   if (tagOnlyParam != "true") {
     search.addIndex(["data", "content"]);

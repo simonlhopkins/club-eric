@@ -2,6 +2,7 @@ import axios from "axios";
 import matter from "gray-matter";
 import { cache } from "react";
 import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
+import { GetStrapiBlogPosts } from "./Strapi";
 
 const blogPostsPath = "./cms/blogPosts";
 
@@ -81,19 +82,29 @@ async function fetchFromS3(bucketName: string): Promise<BlogPostData[]> {
   }
 }
 
-export const GetBlogPosts = cache(async () => {
-  const response = await fetchFromS3(BUCKET_NAME).catch((err) => {
-    console.log("error");
-    console.log(err);
-    return null;
-  });
-  if (response == null) {
-    return [];
-  }
-  return response.map((rawData: any) => ({
-    ...rawData,
-    date: new Date(rawData.date),
-  })) as BlogPostData[];
+export const GetBlogPosts: () => Promise<BlogPostData[]> = cache(async () => {
+  // const response = await fetchFromS3(BUCKET_NAME).catch((err) => {
+  //   console.log("error");
+  //   console.log(err);
+  //   return null;
+  // });
+  // if (response == null) {
+  //   return [];
+  // }
+  // return response.map((rawData: any) => ({
+  //   ...rawData,
+  //   date: new Date(rawData.date),
+  // })) as BlogPostData[];
+
+  const strapiPosts = await GetStrapiBlogPosts();
+  const blogPosts: BlogPostData[] = strapiPosts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    date: new Date(post.publishedAt),
+    content: post.content,
+    labels: post.tags.data.map((item) => item.attributes.name),
+  }));
+  return blogPosts;
 });
 
 export function getYearSlugLinkFromBlogPost(bp: BlogPostData) {

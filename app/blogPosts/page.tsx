@@ -1,7 +1,7 @@
-import MDXBlogPost from "@/components/MDXBlogPosts/MDXBlogPost";
 import { GetBlogPosts } from "@/lib/blogPosts";
 import { Suspense } from "react";
 import BlogPostList from "./BlogPostList";
+import BlogPostComponent from "@/components/BlogPost/BlogPostComponent";
 
 const getSortedPosts = async () => {
   const bp = (await GetBlogPosts()).sort((a, b) => {
@@ -19,7 +19,7 @@ const Page = async () => {
   // }
   const contentMap = posts.map((bp) => ({
     data: bp,
-    node: <MDXBlogPost blogPost={bp} />,
+    node: <BlogPostComponent blogPost={bp} />,
   }));
   return (
     <>

@@ -1,8 +1,9 @@
+import EnergyAnalyzer from "@/components/ForestsVisualizer/EnergyAnalyzer";
+import { Util } from "@/components/Util";
 import * as Tone from "tone";
-import { Util } from "../Util";
-import EnergyAnalyzer from "./EnergyAnalyzer";
 
-class ForestsAnalyzer {
+class Mp3Analyzer {
+  url: string;
   player: Tone.Player = new Tone.Player();
   gain: Tone.Gain = new Tone.Gain(1);
   fft: Tone.FFT = new Tone.FFT(1024);
@@ -16,8 +17,11 @@ class ForestsAnalyzer {
 
   waveformAnalyzer: EnergyAnalyzer = new EnergyAnalyzer(4);
   isInitializing = false;
-  constructor() {
-    const biquadFilter = new Tone.BiquadFilter("5000", "highpass");
+
+  offset = 0;
+  playTime = 0;
+  constructor(url: string) {
+    this.url = url;
     this.player.connect(this.fft);
     this.player.connect(this.waveform);
     this.fft.connect(this.gain);
@@ -29,19 +33,7 @@ class ForestsAnalyzer {
     if (this.isInitializing) return;
     this.isInitializing = true;
 
-    const getRandomForestsTrack = () => {
-      return Util.getRandomElement(
-        [
-          "/Forests-SaintLoser.mp3",
-          "/forestsFoolOfHell.mp3",
-          "/forestsJazzRuinedMyLife.mp3",
-        ].map((item) => "/forestsVisualizer" + item)
-      ) as string;
-    };
-    console.log("loading new forests track");
-    await this.player.load(getRandomForestsTrack());
-    this.player.sync();
-    this.player.start(0);
+    await this.player.load(this.url);
     this.songLoaded = true;
     console.log("song loaded");
   }
@@ -51,14 +43,38 @@ class ForestsAnalyzer {
     this.stop();
     console.log("unsync");
   }
+  static getLowRange() {
+    return { low: 60, high: 250 };
+  }
+  static getMidRange() {
+    return { low: 500, high: 2000 };
+  }
+  static getHighRange() {
+    return { low: 6000, high: 20000 };
+  }
 
-  async updateAverages() {
+  update() {
     const time = Tone.getTransport().seconds;
     const values = this.getFFTValues();
-    const lows = this.getEnergyBins(20, 60, 250, values);
-    const mids = this.getEnergyBins(50, 500, 2000, values);
+    const lows = this.getEnergyBins(
+      20,
+      Mp3Analyzer.getLowRange().low,
+      Mp3Analyzer.getLowRange().high,
+      values
+    );
+    const mids = this.getEnergyBins(
+      50,
+      Mp3Analyzer.getMidRange().low,
+      Mp3Analyzer.getMidRange().high,
+      values
+    );
     const vocals = this.getEnergyBins(50, 200, 700, values);
-    const highs = this.getEnergyBins(50, 6000, 20000, values);
+    const highs = this.getEnergyBins(
+      50,
+      Mp3Analyzer.getHighRange().low,
+      Mp3Analyzer.getHighRange().high,
+      values
+    );
 
     this.lowAnalyzer.addPoint(time, Util.rootMeanSquared(lows));
     this.midsAnalyzer.addPoint(time, Util.rootMeanSquared(mids));
@@ -73,34 +89,34 @@ class ForestsAnalyzer {
   getCurrentTime() {
     return Tone.getTransport().seconds;
   }
-
+  fastForward(seconds: number) {
+    this.stop();
+    this.offset += seconds;
+    this.start();
+  }
+  pause() {
+    this.offset += Tone.getContext().currentTime - this.playTime;
+    this.stop();
+  }
   async start() {
     if (this.songLoaded) {
-      await Tone.start();
-      Tone.getTransport().stop();
-      Tone.getTransport().start();
-      Tone.getTransport().seconds = 20;
+      if (Tone.getContext().state == "suspended") {
+        console.log("Tone context is suspended");
+        await Tone.start();
+      }
+      this.playTime = Tone.now();
+      console.log("offset: " + this.offset);
+      this.player.start(Tone.now(), this.offset);
       this.lowAnalyzer.clear();
       this.midsAnalyzer.clear();
       this.highsAnalyzer.clear();
     }
   }
 
-  pause() {
-    console.log("pause");
-    Tone.getTransport().pause();
-  }
   stop() {
-    Tone.getTransport().stop();
+    this.player.stop();
   }
-  resume() {
-    console.log("resume from " + Tone.getTransport().state);
-    if (Tone.getTransport().state == "paused") {
-      Tone.getTransport().start();
-    } else if (Tone.getTransport().state == "stopped") {
-      this.start();
-    }
-  }
+
   mute() {
     this.gain.gain.value = 0;
   }
@@ -116,7 +132,7 @@ class ForestsAnalyzer {
   ) {
     let bins = [];
     const minFrequency = _minFrequency || 0;
-    const maxFrequency = _maxFrequency || ForestsAnalyzer.getSampleRate() / 2;
+    const maxFrequency = _maxFrequency || Tone.getContext().sampleRate / 2;
     const values = _values || this.getFFTValues();
     for (let i = 0; i < size - 1; i++) {
       const f1 = Util.mapRange(i, 0, size, minFrequency, maxFrequency);
@@ -146,16 +162,6 @@ class ForestsAnalyzer {
         index2 - index1 > 0
           ? Util.rootMeanSquared(values.slice(index1, index2))
           : values[index1];
-
-      // if (Number.isNaN(energy)) {
-      //   const arr = values.slice(index1, index2);
-
-      //   let sumSquares = 0;
-      //   for (let i = 0; i < arr.length; i++) {
-      //     sumSquares += arr[i] * arr[i];
-      //   }
-      //   console.log(energy, arr, Math.sqrt(sumSquares));
-      // }
       bins.push(energy);
     }
 
@@ -188,12 +194,9 @@ class ForestsAnalyzer {
   }
 
   isPlaying() {
-    return Tone.getTransport().state == "started";
+    return this.player.state == "started";
   }
 
-  static getSampleRate() {
-    return Tone.getContext().sampleRate;
-  }
   getPeakPercent(energyAnalyzer: EnergyAnalyzer, falloff: number) {
     const latestHighPeak = energyAnalyzer.getLatestPeak();
     if (latestHighPeak != null) {
@@ -210,4 +213,4 @@ class ForestsAnalyzer {
   }
 }
 
-export default ForestsAnalyzer;
+export default Mp3Analyzer;

@@ -27,7 +27,7 @@ export default async function RootLayout({
         <body>
           <div className="mainWrapper">
             <Header />
-            <NavBar archive={<BlogArchive />} />
+            <NavBar archive={<BlogArchive />} searchBar={<SearchBar />} />
             <div className="bottomWrapper">
               <div className="columnLeft">
                 <img

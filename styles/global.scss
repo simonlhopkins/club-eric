@@ -1,3 +1,4 @@
+@import url("ckeditor5/ckeditor5.css");
 :root {
   --background-color: #000;
   --primary-color: #fff;
@@ -74,6 +75,9 @@ body {
     img {
       max-width: 100%;
     }
+  }
+  video {
+    max-width: 100%;
   }
   .columnRight {
     min-width: 230px;

@@ -1,8 +1,7 @@
-import MDXBlogPost from "@/components/MDXBlogPosts/MDXBlogPost";
 import { GetBlogPosts } from "@/lib/blogPosts";
 import { notFound } from "next/navigation";
-import LabelsList from "./LabelsList";
 import CodPointer from "@/components/CodPointer/CodPointer";
+import BlogPostComponent from "@/components/BlogPost/BlogPostComponent";
 
 // export const dynamicParams = false;
 export async function generateStaticParams() {
@@ -25,7 +24,7 @@ const Page = async ({ params }: { params: { year: string; slug: string } }) => {
     <>
       {blogPost.labels.includes("cod") && <CodPointer />}
 
-      <MDXBlogPost blogPost={blogPost} />
+      <BlogPostComponent blogPost={blogPost} />
     </>
   );
 };

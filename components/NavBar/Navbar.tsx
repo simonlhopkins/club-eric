@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import styles from "./navbar.module.scss";
 import SearchBar from "../SearchBar/Searchbar";
+import clsx from "clsx";
 
 interface RouteEntry {
   link: string;
@@ -12,8 +13,9 @@ interface RouteEntry {
 
 interface Props {
   archive: ReactNode;
+  searchBar: ReactNode;
 }
-const NavBar = ({ archive }: Props) => {
+const NavBar = ({ archive, searchBar }: Props) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const routes: RouteEntry[] = [
@@ -30,9 +32,7 @@ const NavBar = ({ archive }: Props) => {
   }, [isOpen]);
   return (
     <nav className={["navbar", styles.navbar].join(" ")}>
-      <div className={styles.search}>
-        <SearchBar />
-      </div>
+      <div className={styles.search}>{searchBar}</div>
 
       <div
         onClick={() => {
@@ -60,7 +60,7 @@ const NavBar = ({ archive }: Props) => {
                     setIsOpen(false);
                   }
                 }}
-                className={pathname == link ? "active" : ""}
+                className={clsx(pathname == link && styles.active)}
               >
                 {title}
               </Link>
