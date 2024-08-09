@@ -7,7 +7,6 @@ export async function generateStaticParams() {
   const posts = await GetBlogPosts();
 
   const years = Array.from(new Set(posts.map((p) => p.date.getFullYear())));
-  console.log("years: " + JSON.stringify(posts));
   return years.map((year) => ({
     year: year.toString(),
   }));

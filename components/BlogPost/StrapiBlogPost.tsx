@@ -39,6 +39,15 @@ const StrapiBlogPost = ({ blogPostData }: Props) => {
         }
       }
 
+      if (domNode.type === "tag" && domNode.name === "figure") {
+        const sourceElement: Element | undefined = domNode.children.find(
+          (child) => (child as Element).name === "oembed"
+        ) as Element;
+        if (sourceElement) {
+          return <YoutubeEmbed src={sourceElement.attribs.url} />;
+        }
+      }
+
       if (domNode.type === "tag" && domNode.name === "video") {
         const sourceElement: Element | undefined = domNode.children.find(
           (child) => (child as Element).name === "source"
@@ -66,5 +75,26 @@ interface VideoProps {
 const CustomVideo = ({ src }: VideoProps) => {
   return <video className={styles.video} controls src={src} />;
 };
+function convertYouTubeUrlToEmbed(url: string): string {
+  const youtubeUrlPattern =
+    /^(https:\/\/www\.youtube\.com)\/watch\?v=([a-zA-Z0-9_-]+)$/;
 
+  const match = url.match(youtubeUrlPattern);
+  if (match) {
+    const baseUrl = match[1];
+    const videoId = match[2];
+    return `${baseUrl}/embed/${videoId}`;
+  }
+
+  throw new Error("Invalid YouTube URL");
+}
+const YoutubeEmbed = ({ src }: VideoProps) => {
+  return (
+    <iframe
+      width="420"
+      height="315"
+      src={convertYouTubeUrlToEmbed(src)}
+    ></iframe>
+  );
+};
 export default StrapiBlogPost;

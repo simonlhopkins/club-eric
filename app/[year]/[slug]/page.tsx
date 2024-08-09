@@ -9,7 +9,7 @@ export async function generateStaticParams() {
 
   return posts.map((bp) => ({
     year: bp.date.getFullYear().toString(),
-    slug: bp.slug,
+    slug: encodeURIComponent(bp.slug),
   }));
 }
 

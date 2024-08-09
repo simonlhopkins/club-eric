@@ -12,7 +12,6 @@ import { visit } from "unist-util-visit";
 import SamAdamsOctoberFest from "../SamAdamsOctoberFest";
 import CodPointer from "../CodPointer/CodPointer";
 import LabelsList from "@/app/[year]/[slug]/LabelsList";
-import StrapiBlogPost from "@/components/BlogPost/StrapiBlogPost";
 
 interface Props {
   blogPost: BlogPostData;
@@ -59,7 +58,6 @@ const mdxOptions = {
   development: process.env.NODE_ENV === "development",
 };
 const MDXBlogPost = async ({ blogPost }: Props) => {
-  return <StrapiBlogPost blogPostData={blogPost} />;
   return (
     <div>
       <Link href={getYearSlugLinkFromBlogPost(blogPost)}>

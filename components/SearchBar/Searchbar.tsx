@@ -4,7 +4,8 @@ import { GetTags } from "@/lib/blogPosts/Strapi";
 import { GetBlogPosts } from "@/lib/blogPosts";
 
 const SearchBar = async () => {
-  const suggestions = await GetTags();
+  // const suggestions = await GetTags();
+  const suggestions = [] as string[];
   console.log(suggestions);
   return (
     <>

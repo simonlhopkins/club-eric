@@ -34,8 +34,20 @@ const BlogPostList = ({ children }: Props) => {
     }[];
   }
 
+  const titleString = () => {
+    if (searchParam || tagOnlyParam) {
+      return (
+        (searchParam ? `Searching for: ${searchParam}` : "") +
+        (tagOnlyParam ? ` with tag ${tagOnlyParam}` : "")
+      );
+    } else {
+      return "";
+    }
+  };
+
   return (
     <>
+      <p>{titleString()}</p>
       {results.map(({ data, node }) => (
         <div key={data.title} className={styles.blogPost}>
           {node}
